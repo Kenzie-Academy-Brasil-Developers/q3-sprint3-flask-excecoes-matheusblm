@@ -1,0 +1,14 @@
+{
+    "data": [
+        {
+            "email": "email1",
+            "id": 1,
+            "nome": "oi"
+        },
+        {
+            "email": "email2",
+            "id": 2,
+            "nome": "oi"
+        }
+    ]
+}

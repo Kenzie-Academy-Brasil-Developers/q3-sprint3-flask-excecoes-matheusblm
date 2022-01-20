@@ -30,7 +30,7 @@ def add_user():
     data = request.get_json()
     try: 
         if type(data["nome"]) != str or type(data["email"]) != str:
-           raise FieldError("Tipo dos dados Incorretos!")
+           raise FieldError()
         open_file = open(f'{FILES_DIRECTORY}/database.json')
         load_file = load(open_file)
         novo_nome = data.get('nome')
@@ -38,15 +38,15 @@ def add_user():
         novo_id = len(load_file.get('data')) + 1 
         for user in load_file.get("data"):    
             if user.get("email") == novo_email:
-                raise UserAlreadyExistsError("Email já existe")
+                raise UserAlreadyExistsError()
         with open(f'{FILES_DIRECTORY}/database.json', 'w') as database:
             load_file.get('data').append({"email": novo_email, "id":novo_id,"nome": novo_nome})
             dump(load_file, database, indent=4)
             return load_file, 201
     except FieldError:
-          return FieldError.message, HTTPStatus.BAD_REQUEST
+          return jsonify(message= "Campos errados"), HTTPStatus.BAD_REQUEST
 
     except UserAlreadyExistsError:
-        return UserAlreadyExistsError.message, HTTPStatus.CONFLICT   
+        return jsonify(message= "Usuario ja cadastrado"), HTTPStatus.CONFLICT   
 
     
